@@ -4,6 +4,7 @@ This repository contains the base code for POC demonstrations of impact analysis
 # Installing
 To install run the following commands:
 ```bash
+sudo apt install apache2-utils
 ./run.sh create_user [username] [password]
 ./run.sh setup_env
 docker compose pull
