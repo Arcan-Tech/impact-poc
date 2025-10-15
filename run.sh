@@ -92,7 +92,7 @@ switch_dataset(){
 	docker exec -i dump-helper \
 	  neo4j-admin database load neo4j \
 	  --overwrite-destination=true --from-stdin < $file
-	docker start graph-dataset
+	docker exec graph-dataset neo4j start
 	wait_db
 	echo "Done"
 }
