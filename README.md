@@ -16,6 +16,14 @@ Credentials will be saved in `nginx/.htpasswd` in plain text for reference.
 Simply run `docker compose up` and the dashboard should be available on the configured port (usually `8000`).
 Use the credent
 
+# Loading datasets
+Loading datasets mean you need to have a Neo4j dump file and put it into the `datasets` folder.
+Next, you can run:
+```bash
+./run switch_dataset datasets/<FILE>
+```
+Wait until the script stops neo4j, loads the dataset, and restarts the database.
+
 # Restoring passwords
 Just run
 ```bash
