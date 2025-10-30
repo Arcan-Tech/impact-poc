@@ -7,7 +7,7 @@ services:
     environment:
       NEO4J_URL: ${NEO4J_URL}
       NEO4J_USER: ${NEO4J_USER}
-      NEO4J_PASS: ${NEO4J_PASS}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD}
     depends_on:
        - graph-dataset
 
@@ -34,11 +34,11 @@ services:
       - '7687:7687'
     environment:
       CYPHER_USER: ${NEO4J_USER}
-      CYPHER_PASS: ${NEO4J_PASS}
+      CYPHER_PASS: ${NEO4J_PASSWORD}
       NEO4J_server_memory_heap_initial__size: 1g
       NEO4J_server_memory_heap_max__size: 4g
       NEO4J_server_memory_pagecache_size: 2g
-      NEO4J_AUTH: "${NEO4J_USER}/${NEO4J_PASS}"
+      NEO4J_AUTH: "${NEO4J_USER}/${NEO4J_PASSWORD}"
     volumes:
       - neo4j_data:/data
       - neo4j_plugins:/plugins
