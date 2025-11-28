@@ -4,13 +4,19 @@ This repository contains the base code for POC demonstrations of impact analysis
 # Installing
 To install run the following commands:
 ```bash
+# For HTTP use
 sudo apt install apache2-utils
 ./run.sh create_user [username] [password]
 ./run.sh setup_env
+
+# For HTTPS use 
+docker run --rm -it caddy caddy hash-password -p [PASSWORD]
+# then set the username in the Caddyfile and paste the password there as well
+
 docker compose pull
 ```
 This should set up a new `.env` file (if none other exists) and pull the images.
-Note that if no username or password are provided for the application, `arcan` will be used as default username and a randomly generated string as password.
+Note that, for `http`, if no username or password are provided for the application, `arcan` will be used as default username and a randomly generated string as password.
 Credentials will be saved in `nginx/.htpasswd` in plain text for reference.
 
 # Running
