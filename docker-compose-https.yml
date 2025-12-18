@@ -4,12 +4,16 @@ services:
   icpm:
     container_name: icpm-shiny
     image: ${ICPM_IMAGE}:${ICPM_VERSION}
+#    volumes:
+#      - ./bmed.json:/app/.venv/lib/python3.13/namespaces/bmed.json
     environment:
-      NEO4J_URL: ${NEO4J_URL}
-      NEO4J_USER: ${NEO4J_USER}
+      NEO4J_URI: ${NEO4J_URI}
+      NEO4J_USERNAME: ${NEO4J_USERNAME}
       NEO4J_PASSWORD: ${NEO4J_PASSWORD}
     depends_on:
-       - graph-dataset
+      graph-dataset:
+        condition: service_healthy
+    restart: always
 
   caddy:
     image: caddy:latest
@@ -33,12 +37,12 @@ services:
       - '7474:7474'
       - '7687:7687'
     environment:
-      CYPHER_USER: ${NEO4J_USER}
+      CYPHER_USER: ${NEO4J_USERNAME}
       CYPHER_PASS: ${NEO4J_PASSWORD}
       NEO4J_server_memory_heap_initial__size: 1g
       NEO4J_server_memory_heap_max__size: 4g
       NEO4J_server_memory_pagecache_size: 2g
-      NEO4J_AUTH: "${NEO4J_USER}/${NEO4J_PASSWORD}"
+      NEO4J_AUTH: "${NEO4J_USERNAME}/${NEO4J_PASSWORD}"
     volumes:
       - neo4j_data:/data
       - neo4j_plugins:/plugins
@@ -51,6 +55,11 @@ services:
           memory: 12g # needs to be at least the sum of heap_max_size and pagecache_size
         reservations:
           memory: 8g
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   dump-helper: # container with all the mounts ready to be used for dumping
      image: ${GRAPH_IMAGE}:${GRAPH_VERSION}
